@@ -1,0 +1,82 @@
+import React from 'react';
+
+const Disclaimer = () => {
+    return (
+        <section className="legal-page">
+            <div className="container legal-container">
+                <h1>Disclaimer</h1>
+                <p className="legal-date">Last updated: February 23, 2026</p>
+
+                <div className="legal-section">
+                    <h2>General Disclaimer</h2>
+                    <p>This website is a demonstration created for educational and development purposes. It is not affiliated with, endorsed by, or connected to Opus Pro, OpusClip, or Opus Technologies, Inc.</p>
+                    <p>All trademarks, logos, and brand names mentioned on this site are the property of their respective owners. Any references to third-party products, services, or companies are made solely for illustrative and educational purposes.</p>
+                </div>
+
+                <div className="legal-section">
+                    <h2>No Professional Advice</h2>
+                    <p>The information provided on this website is for general informational and demonstration purposes only. It does not constitute professional, legal, financial, or technical advice. You should not rely on this information as a substitute for professional consultation.</p>
+                    <p>Before making any decisions based on the content of this site, you should consult with a qualified professional who can advise you based on your individual circumstances.</p>
+                </div>
+
+                <div className="legal-section">
+                    <h2>Accuracy of Information</h2>
+                    <p>While we strive to provide accurate and up-to-date information, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on this website.</p>
+                    <p>Any reliance you place on such information is therefore strictly at your own risk. We shall not be held responsible for any errors, omissions, or inaccuracies in the content provided.</p>
+                </div>
+
+                <div className="legal-section">
+                    <h2>AI-Generated Content</h2>
+                    <p>This platform utilizes artificial intelligence technologies to process and generate video content. AI-generated outputs, including but not limited to clips, captions, reframing suggestions, and virality scores, are produced by automated systems and may not always be accurate, appropriate, or error-free.</p>
+                    <p>Users are solely responsible for reviewing, editing, and approving all AI-generated content before publishing or distributing it. We do not guarantee the quality, accuracy, or suitability of any AI-generated output for any particular purpose.</p>
+                </div>
+
+                <div className="legal-section">
+                    <h2>Third-Party Links & Services</h2>
+                    <p>This website may contain links to third-party websites, services, or resources that are not owned or controlled by us. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services.</p>
+                    <p>You acknowledge and agree that we shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such third-party websites or services.</p>
+                </div>
+
+                <div className="legal-section">
+                    <h2>Intellectual Property</h2>
+                    <p>Users retain full ownership of any original content they upload to the platform. By uploading content, users represent and warrant that they have all necessary rights, licenses, and permissions to use and share that content.</p>
+                    <p>We are not responsible for any copyright infringement, trademark violations, or other intellectual property disputes arising from user-uploaded content. Users agree to indemnify and hold us harmless from any claims related to their uploaded content.</p>
+                </div>
+
+                <div className="legal-section">
+                    <h2>Limitation of Liability</h2>
+                    <p>In no event shall this website, its developers, or its affiliates be liable for any direct, indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, use, goodwill, or other intangible losses, resulting from:</p>
+                    <ul>
+                        <li>Your access to or use of (or inability to access or use) the website or its services.</li>
+                        <li>Any conduct or content of any third party on the website.</li>
+                        <li>Any content obtained from the website or generated by its AI tools.</li>
+                        <li>Unauthorized access, use, or alteration of your transmissions or content.</li>
+                    </ul>
+                </div>
+
+                <div className="legal-section">
+                    <h2>User Responsibility</h2>
+                    <p>Users are responsible for ensuring that their use of this platform and any content generated through it complies with all applicable local, state, national, and international laws and regulations. This includes but is not limited to:</p>
+                    <ul>
+                        <li>Copyright and intellectual property laws.</li>
+                        <li>Data protection and privacy regulations.</li>
+                        <li>Content moderation and community standards of platforms where content may be shared.</li>
+                        <li>Fair use and licensing requirements.</li>
+                    </ul>
+                </div>
+
+                <div className="legal-section">
+                    <h2>Changes to This Disclaimer</h2>
+                    <p>We reserve the right to update or modify this disclaimer at any time without prior notice. Any changes will be effective immediately upon posting the revised disclaimer on this page. Your continued use of the website after the posting of changes constitutes your acceptance of those changes.</p>
+                </div>
+
+                <div className="legal-section">
+                    <h2>Contact Information</h2>
+                    <p>If you have any questions or concerns about this disclaimer, please contact us at <a href="mailto:contact@opus.pro">contact@opus.pro</a>.</p>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Disclaimer;
