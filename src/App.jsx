@@ -17,6 +17,7 @@ import EditorMockup from './components/EditorMockup'
 import FAQ from './components/FAQ'
 import AuthModal from './components/AuthModal'
 import DemoVideoModal from './components/DemoVideoModal'
+import AuthCallback from './components/AuthCallback'
 
 function App() {
   const [view, setView] = useState('home');
@@ -70,6 +71,12 @@ function App() {
 
   const renderView = (onStart) => {
     switch (view) {
+      case 'auth-callback': return <AuthCallback onAuthComplete={(success, userData) => {
+        if (success && userData) {
+          setUser(userData);
+          setShowAuth(false);
+        }
+      }} />;
       case 'about': return <About />;
       case 'disclaimer': return <Disclaimer />;
       case 'terms': return <Terms />;
