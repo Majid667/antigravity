@@ -2570,6 +2570,26 @@ button.secondary.small.downloaded {
   background: #000;
 }
 
+.video-fallback {
+  color: white;
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.video-error-message {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 1002;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -2580,7 +2600,7 @@ button.secondary.small.downloaded {
   }
 }
 
-
+@media (max-width: 1024px) {
   .mockup-body {
     grid-template-columns: 1fr 100px;
   }

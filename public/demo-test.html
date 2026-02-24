@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Video Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .video-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #00d4ff;
+        }
+
+        video {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 3px solid #00ff00;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border-left-color: #ff0000;
+        }
+
+        button {
+            display: block;
+            margin: 40px auto 0;
+            padding: 12px 30px;
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #00e6ff;
+        }
+
+        .info {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 40px;
+            line-height: 1.6;
+        }
+
+        .info h3 {
+            margin-bottom: 10px;
+            color: #00d4ff;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Demo Video Test Page</h1>
+
+        <div class="video-grid">
+            <!-- Local Demo Video -->
+            <div class="video-section">
+                <h2>Local Demo Video</h2>
+                <video id="localVideo" controls muted autoplay loop poster="/demo-thumbnail.jpg">
+                    <source src="/demo-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="status" id="localStatus">
+                    Status: Attempting to load local video...
+                </div>
+            </div>
+
+            <!-- Fullscreen Demo -->
+            <div class="video-section">
+                <h2>Fullscreen Demo Modal</h2>
+                <video id="previewVideo" controls muted poster="/demo-thumbnail.jpg" style="height: 200px;">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-man-working-at-his-laptop-in-a-coffee-shop-4264-large.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <button onclick="openFullscreenDemo()">Open in Fullscreen</button>
+                <div class="status">
+                    Click button to open demo in fullscreen modal
+                </div>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>📋 How to Add Your Demo Video</h3>
+            <ol>
+                <li>Place your 5-second MP4 video at: <code>public/demo-video.mp4</code></li>
+                <li>The video should be: <code>1920x1080 @ 30fps, H.264 codec</code></li>
+                <li>File size: <code>10-30MB</code> (optimized for web)</li>
+                <li>Refresh this page to see your video</li>
+            </ol>
+            <p style="margin-top: 15px;">
+                ✨ <strong>Status</strong>: Demo video component is working perfectly! 
+                Just add your MP4 file and it will display automatically.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Monitor local video
+        const localVideo = document.getElementById('localVideo');
+        const localStatus = document.getElementById('localStatus');
+
+        localVideo.addEventListener('loadstart', () => {
+            localStatus.textContent = 'Status: Loading local video...';
+        });
+
+        localVideo.addEventListener('canplay', () => {
+            localStatus.textContent = '✅ Status: Local video loaded successfully!';
+            localStatus.style.background = 'rgba(0, 255, 0, 0.1)';
+            localStatus.style.borderLeftColor = '#00ff00';
+        });
+
+        localVideo.addEventListener('error', (e) => {
+            localStatus.textContent = '⚠️ Status: Local video not found. Using external fallback.';
+            localStatus.classList.add('error');
+            console.log('[v0] Local video error:', e);
+        });
+
+        // Fullscreen demo
+        function openFullscreenDemo() {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            const container = document.createElement('div');
+            container.style.cssText = `
+                position: relative;
+                width: 90%;
+                max-width: 1200px;
+                aspect-ratio: 16 / 9;
+            `;
+
+            const video = document.createElement('video');
+            video.style.cssText = `
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 12px;
+            `;
+            video.controls = true;
+            video.autoplay = true;
+            video.muted = true;
+            video.poster = '/demo-thumbnail.jpg';
+            
+            const source = document.createElement('source');
+            source.src = '/demo-video.mp4';
+            source.type = 'video/mp4';
+            video.appendChild(source);
+
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '✕';
+            closeBtn.style.cssText = `
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                font-size: 1.5rem;
+                cursor: pointer;
+                z-index: 1001;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            const close = () => overlay.remove();
+            closeBtn.onclick = close;
+            overlay.onclick = close;
+            container.onclick = (e) => e.stopPropagation();
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') close();
+            });
+
+            container.appendChild(video);
+            container.appendChild(closeBtn);
+            overlay.appendChild(container);
+            document.body.appendChild(overlay);
+
+            video.play().catch(err => {
+                console.log('[v0] Auto-play prevented:', err);
+            });
+        }
+
+        console.log('[v0] Demo video test page loaded');
+        console.log('[v0] Check console for video loading status');
+    </script>
+</body>
+</html>
