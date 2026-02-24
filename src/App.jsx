@@ -17,6 +17,7 @@ import EditorMockup from './components/EditorMockup'
 import FAQ from './components/FAQ'
 import AuthModal from './components/AuthModal'
 import DemoVideoModal from './components/DemoVideoModal'
+import AuthCallback from './components/AuthCallback'
 
 function App() {
   const [view, setView] = useState('home');
@@ -25,6 +26,16 @@ function App() {
   const [showAuth, setShowAuth] = useState(false);
   const [showDemoVideo, setShowDemoVideo] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+
+  // Detect if we're on the auth callback page and set view accordingly
+  useEffect(() => {
+    const path = window.location.pathname;
+    console.log("[v0] Current path:", path);
+    if (path.includes('/auth/callback') || path.includes('auth/callback')) {
+      console.log("[v0] Detected auth callback path, setting view");
+      setView('auth-callback');
+    }
+  }, []);
 
   useEffect(() => {
     // Check for existing session
@@ -70,6 +81,12 @@ function App() {
 
   const renderView = (onStart) => {
     switch (view) {
+      case 'auth-callback': return <AuthCallback onAuthComplete={(success, userData) => {
+        if (success && userData) {
+          setUser(userData);
+          setShowAuth(false);
+        }
+      }} />;
       case 'about': return <About />;
       case 'disclaimer': return <Disclaimer />;
       case 'terms': return <Terms />;
