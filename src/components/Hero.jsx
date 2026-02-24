@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Hero = ({ onStart }) => {
+const Hero = ({ onStart, onWatchDemo }) => {
     return (
         <header className="hero">
             <div className="container">
@@ -10,7 +10,7 @@ const Hero = ({ onStart }) => {
                     <p>The only AI that understands every pixel of your video. Turn long-form content into gold with professional-grade clipping and reframing.</p>
                     <div className="hero-ctas">
                         <button className="primary" onClick={onStart}>Start for Free</button>
-                        <button className="secondary">Watch Demo</button>
+                        <button className="secondary" onClick={onWatchDemo}>Watch Demo</button>
                     </div>
                     <div className="hero-stats">
                         <span>Used by 10M+ creators</span>

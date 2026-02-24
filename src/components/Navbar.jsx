@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Navbar = ({ setView, onStart, user, onSignIn, onSignOut, theme, toggleTheme }) => {
+const Navbar = ({ setView, onStart, user, onSignIn, onSignOut, theme, toggleTheme, onWatchDemo }) => {
     const [showFeatures, setShowFeatures] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -67,7 +67,7 @@ const Navbar = ({ setView, onStart, user, onSignIn, onSignOut, theme, toggleThem
                             </div>
                         )}
                     </div>
-                    <a href="#demo" onClick={(e) => { e.preventDefault(); setView('home'); setTimeout(() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>Demo</a>
+                    <a href="#demo" onClick={(e) => { e.preventDefault(); onWatchDemo?.(); }}>Demo</a>
                     <a href="#pricing" onClick={(e) => { e.preventDefault(); setView('home'); setTimeout(() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>Pricing</a>
                     <a href="#about" onClick={(e) => { e.preventDefault(); setView('about'); }}>About</a>
 
