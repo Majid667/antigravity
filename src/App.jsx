@@ -16,12 +16,14 @@ import Testimonials from './components/Testimonials'
 import EditorMockup from './components/EditorMockup'
 import FAQ from './components/FAQ'
 import AuthModal from './components/AuthModal'
+import DemoVideoModal from './components/DemoVideoModal'
 
 function App() {
   const [view, setView] = useState('home');
   const [showProcessor, setShowProcessor] = useState(false);
   const [user, setUser] = useState(null);
   const [showAuth, setShowAuth] = useState(false);
+  const [showDemoVideo, setShowDemoVideo] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
   useEffect(() => {
@@ -57,6 +59,10 @@ function App() {
     setShowProcessor(true);
   };
 
+  const handleWatchDemo = () => {
+    setShowDemoVideo(true);
+  };
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -71,7 +77,7 @@ function App() {
       case 'contact': return <Contact />;
       default: return (
         <>
-          <Hero onStart={onStart} />
+          <Hero onStart={onStart} onWatchDemo={handleWatchDemo} />
           <EditorMockup />
           <Testimonials />
           <Features />
@@ -92,6 +98,7 @@ function App() {
         onSignOut={handleSignOut}
         theme={theme}
         toggleTheme={toggleTheme}
+        onWatchDemo={handleWatchDemo}
       />
       <main>
         {renderView(handleStartForFree)}
@@ -99,6 +106,7 @@ function App() {
       <Footer setView={setView} />
       {showProcessor && <VideoProcessor onClose={() => setShowProcessor(false)} />}
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} onAuth={setUser} />}
+      {showDemoVideo && <DemoVideoModal onClose={() => setShowDemoVideo(false)} />}
     </div>
   )
 }
