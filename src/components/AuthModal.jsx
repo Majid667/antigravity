@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 const AuthModal = ({ onClose, onAuth }) => {
     const [mode, setMode] = useState('signin');
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [loading, setLoading] = useState(false);
@@ -15,15 +16,22 @@ const AuthModal = ({ onClose, onAuth }) => {
         setLoading(true);
         setError('');
 
+        // Try to sign in with email first
+        let signInData = null;
+        let signInError = null;
+
         const { data, error } = await supabase.auth.signInWithPassword({
-            email,
+            email: email || username,
             password,
         });
 
-        if (error) {
-            setError(error.message);
+        signInData = data;
+        signInError = error;
+
+        if (signInError) {
+            setError(signInError.message || 'Invalid email/username or password');
         } else {
-            onAuth(data.user);
+            onAuth(signInData.user);
             onClose();
         }
         setLoading(false);
@@ -35,12 +43,26 @@ const AuthModal = ({ onClose, onAuth }) => {
         setError('');
         setSuccess('');
 
+        // Validate username
+        if (!username || username.length < 3) {
+            setError('Username must be at least 3 characters long');
+            setLoading(false);
+            return;
+        }
+
+        if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+            setError('Username can only contain letters, numbers, hyphens, and underscores');
+            setLoading(false);
+            return;
+        }
+
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
             options: {
                 data: {
                     full_name: fullName,
+                    username: username,
                 },
             },
         });
@@ -80,24 +102,40 @@ const AuthModal = ({ onClose, onAuth }) => {
 
                 <form onSubmit={mode === 'signin' ? handleSignIn : handleSignUp}>
                     {mode === 'signup' && (
-                        <div className="auth-field">
-                            <label>Full Name</label>
-                            <input
-                                type="text"
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                                placeholder="John Doe"
-                                required
-                            />
-                        </div>
+                        <>
+                            <div className="auth-field">
+                                <label>Full Name</label>
+                                <input
+                                    type="text"
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    placeholder="John Doe"
+                                    required
+                                />
+                            </div>
+                            <div className="auth-field">
+                                <label>Username</label>
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="john_doe"
+                                    required
+                                    minLength={3}
+                                    pattern="^[a-zA-Z0-9_-]+$"
+                                    title="Username can only contain letters, numbers, hyphens, and underscores"
+                                />
+                                <small className="auth-hint">3+ characters, letters, numbers, hyphens, underscores only</small>
+                            </div>
+                        </>
                     )}
                     <div className="auth-field">
-                        <label>Email</label>
+                        <label>{mode === 'signin' ? 'Email or Username' : 'Email'}</label>
                         <input
-                            type="email"
+                            type={mode === 'signin' ? 'text' : 'email'}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="you@example.com"
+                            placeholder={mode === 'signin' ? 'you@example.com or john_doe' : 'you@example.com'}
                             required
                         />
                     </div>
@@ -123,9 +161,9 @@ const AuthModal = ({ onClose, onAuth }) => {
 
                 <p className="auth-switch">
                     {mode === 'signin' ? (
-                        <>Don't have an account? <button onClick={() => { setMode('signup'); setError(''); setSuccess(''); }}>Sign Up</button></>
+                        <>Don't have an account? <button onClick={() => { setMode('signup'); setError(''); setSuccess(''); setEmail(''); setUsername(''); setPassword(''); setFullName(''); }}>Sign Up</button></>
                     ) : (
-                        <>Already have an account? <button onClick={() => { setMode('signin'); setError(''); setSuccess(''); }}>Sign In</button></>
+                        <>Already have an account? <button onClick={() => { setMode('signin'); setError(''); setSuccess(''); setEmail(''); setUsername(''); setPassword(''); setFullName(''); }}>Sign In</button></>
                     )}
                 </p>
             </div>
