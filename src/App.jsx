@@ -27,6 +27,16 @@ function App() {
   const [showDemoVideo, setShowDemoVideo] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
+  // Detect if we're on the auth callback page and set view accordingly
+  useEffect(() => {
+    const path = window.location.pathname;
+    console.log("[v0] Current path:", path);
+    if (path.includes('/auth/callback') || path.includes('auth/callback')) {
+      console.log("[v0] Detected auth callback path, setting view");
+      setView('auth-callback');
+    }
+  }, []);
+
   useEffect(() => {
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
