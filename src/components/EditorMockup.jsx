@@ -1,15 +1,25 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const EditorMockup = () => {
     const videoRef = useRef(null);
+    const [videoLoaded, setVideoLoaded] = useState(false);
 
     useEffect(() => {
         if (videoRef.current) {
             videoRef.current.play().catch(error => {
-                console.log("Auto-play was prevented:", error);
+                console.log("[v0] Auto-play was prevented:", error);
             });
         }
     }, []);
+
+    const handleVideoLoad = () => {
+        console.log("[v0] Video loaded successfully");
+        setVideoLoaded(true);
+    };
+
+    const handleVideoError = () => {
+        console.log("[v0] Video failed to load, using fallback");
+    };
 
     return (
         <section id="demo" className="editor-mockup">
@@ -34,8 +44,11 @@ const EditorMockup = () => {
                             loop
                             playsInline
                             className="demo-video-player"
-                            poster="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1000"
+                            poster="/demo-thumbnail.jpg"
+                            onLoadedData={handleVideoLoad}
+                            onError={handleVideoError}
                         >
+                            <source src="/demo-video.mp4" type="video/mp4" />
                             <source src="https://assets.mixkit.co/videos/preview/mixkit-man-working-at-his-laptop-in-a-coffee-shop-4264-large.mp4" type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>

@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const DemoVideoModal = ({ onClose }) => {
     const videoRef = useRef(null);
+    const [videoError, setVideoError] = useState(false);
 
     useEffect(() => {
         // Start playing when component mounts
         if (videoRef.current) {
             videoRef.current.play().catch(error => {
-                console.log("Auto-play was prevented:", error);
+                console.log("[v0] Auto-play was prevented:", error);
             });
         }
 
@@ -22,6 +23,11 @@ const DemoVideoModal = ({ onClose }) => {
         return () => window.removeEventListener('keydown', handleEsc);
     }, [onClose]);
 
+    const handleVideoError = () => {
+        console.log("[v0] Video failed to load, attempting fallback");
+        setVideoError(true);
+    };
+
     return (
         <div className="demo-video-overlay" onClick={onClose}>
             <div className="demo-video-container" onClick={(e) => e.stopPropagation()}>
@@ -33,10 +39,20 @@ const DemoVideoModal = ({ onClose }) => {
                     playsInline
                     controls
                     className="demo-video-player-fullscreen"
+                    onError={handleVideoError}
+                    poster="/demo-thumbnail.jpg"
                 >
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-man-working-at-his-laptop-in-a-coffee-shop-4264-large.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
+                    <source src="/demo-video.mp4" type="video/mp4" />
+                    {!videoError && (
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-man-working-at-his-laptop-in-a-coffee-shop-4264-large.mp4" type="video/mp4" />
+                    )}
+                    <p className="video-fallback">Your browser does not support the video tag. Please try a different browser.</p>
                 </video>
+                {videoError && (
+                    <div className="video-error-message">
+                        <p>Unable to load demo video. Using fallback video...</p>
+                    </div>
+                )}
             </div>
         </div>
     );
